@@ -6,9 +6,13 @@ const ease = (a, b, v) => { const t = clamp((v - a) / (b - a)); return t * t * (
 const lerp = (a, b, t) => a + (b - a) * t;
 
 gsap.registerPlugin(ScrollTrigger);
+// Adressleiste auf dem Handy ein-/ausblenden soll nicht jedes Mal alles neu berechnen
+ScrollTrigger.config({ ignoreMobileResize: true });
 
+// Lenis nur mit Maus/Trackpad: auf Touch-Geräten ist natives Scrollen schon weich, Lenis würde dort nur stören
+const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 let lenis = null;
-if (!reduce) {
+if (!reduce && finePointer) {
   lenis = new Lenis({ lerp: 0.1 });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((t) => lenis.raf(t * 1000));
@@ -322,6 +326,16 @@ function drawPlaceholder(p) {
   ctx.font = `500 ${mobile ? 10 : 12}px Inter, sans-serif`;
   ctx.textAlign = 'right';
   ctx.fillText('Platzhalter · echte Bilder folgen', W - 20, mobile ? 80 : H - 24);
+}
+
+// Diagnose fürs Handy: Seite mit ?debug öffnen, dann zeigt eine Leiste unten Scrollposition, Fortschritt und geladene Bilder
+if (new URLSearchParams(location.search).has('debug')) {
+  const box = document.createElement('div');
+  box.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:99;padding:6px 8px;border-radius:6px;background:rgba(0,0,0,.8);color:#7f7;font:11px/1.4 monospace;pointer-events:none';
+  document.body.appendChild(box);
+  setInterval(() => {
+    box.textContent = `y ${Math.round(scrollY)} · film ${(progress * 100).toFixed(0)}% · Bilder ${frames.filter(ready).length}/${frames.length} · lenis ${lenis ? 'an' : 'aus'} · ${innerWidth}×${innerHeight}`;
+  }, 250);
 }
 
 function updatePhases() {

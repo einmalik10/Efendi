@@ -15,7 +15,10 @@
 
 * { box-sizing: border-box; margin: 0; }
 html { -webkit-text-size-adjust: 100%; }
-body { background: var(--ink); color: var(--cream); font: 400 16px/1.55 var(--body); overflow-x: hidden; }
+/* clip statt hidden: hidden macht in iOS-Safari den body zum eigenen Scroll-Bereich, dann meldet das Fenster
+   keine Scrollposition mehr und der Scroll-Film bleibt auf dem ersten Bild stehen */
+html, body { overflow-x: clip; }
+body { background: var(--ink); color: var(--cream); font: 400 16px/1.55 var(--body); }
 img, canvas, video { display: block; max-width: 100%; }
 a { color: inherit; }
 
