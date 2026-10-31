@@ -2,6 +2,11 @@
 
 Website-Konzept von MI Visuals: Scroll-Film (Spieß → Fleischspirale → Explosionszeichnung → fertiger Döner), Lavastein-Grill-Loop, Karte, Anfahrt.
 
+**Vorschau:** https://einmalik10.github.io/Efendi/ (noindex, Platzhalter-Inhalte)
+
+**PageSpeed Insights (31.10.2026):** Handy 98 / 100 / 100 · Desktop 100 / 100 / 100 (Leistung / Barrierefreiheit / Best Practices). SEO 60 nur wegen `noindex`, vor dem echten Start entfernen.
+Bericht: https://pagespeed.web.dev/analysis/https-einmalik10-github-io-Efendi/rjze1vbqcp
+
 ## Lokal ansehen
 ```bash
 python3 -m http.server 8123
