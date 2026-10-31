@@ -54,7 +54,48 @@ function loadOrder(n, minStep = 1) {
   return order;
 }
 
+/* ---------- Vorzeichnen ----------
+   Ein Bild beim ersten drawImage auszupacken kostet auf schwachen Geräten bis zu 100 ms und ruckelt. Darum jedes Bild
+   einmal unsichtbar vorzeichnen, aber nur in Leerlaufzeiten und eins nach dem anderen, Bilder nahe der Scrollposition
+   zuerst. Die ersten 4 sofort (für den Start), alle anderen ab der ersten Bedienung oder nach 10 s, damit das
+   Laden der Seite selbst nicht blockiert wird. */
 const warm = document.createElement('canvas').getContext('2d');
+const toWarm = new Set();
+let warmAllowed = false, warmQueued = false;
+const idle = window.requestIdleCallback || ((cb) => setTimeout(() => cb({ timeRemaining: () => 8 }), 50));
+
+function scheduleWarm() {
+  if (warmQueued || !toWarm.size) return;
+  warmQueued = true;
+  idle(warmStep, { timeout: 1000 });
+}
+
+function warmStep(deadline) {
+  warmQueued = false;
+  const target = Math.round(clamp(progress / 0.9) * (frames.length - 1));
+  do {
+    let best = -1, bestDist = Infinity;
+    for (const i of toWarm) {
+      if (!warmAllowed && i >= 4) continue;
+      // vorwärts (Scrollrichtung) leicht bevorzugen
+      const dist = i >= target ? i - target : (target - i) * 1.5;
+      if (dist < bestDist) { best = i; bestDist = dist; }
+    }
+    if (best < 0) return;
+    warm.drawImage(frames[best], 0, 0, 1, 1);
+    toWarm.delete(best);
+  } while (deadline.timeRemaining() > 12);
+  scheduleWarm();
+}
+
+function allowWarm() {
+  if (warmAllowed) return;
+  warmAllowed = true;
+  scheduleWarm();
+}
+['wheel', 'touchstart', 'pointerdown', 'keydown', 'scroll'].forEach((ev) =>
+  addEventListener(ev, allowWarm, { once: true, passive: true }));
+setTimeout(allowWarm, 10000);
 
 /* ---------- Ladeanzeige ----------
    Bleibt stehen, bis die grobe Stufe (jedes 8. Bild) geladen ist: dann ist der ganze Film ohne Lücken scrollbar.
@@ -70,6 +111,7 @@ function finishLoader() {
   document.documentElement.classList.remove('is-loading');
   if (lenis) lenis.start();
   render();
+  dispatchEvent(new Event('effendi:ready'));
 }
 
 function tickLoader() {
@@ -94,9 +136,8 @@ function loadFrames() {
     const img = frames[i];
     img.decoding = 'async';
     img.onload = img.onerror = () => {
-      // dekodieren und einmal unsichtbar vorzeichnen: sonst passiert das beim ersten Scrollen und ruckelt
       (img.decode ? img.decode().catch(() => {}) : Promise.resolve()).then(() => {
-        if (ready(img)) warm.drawImage(img, 0, 0, 1, 1);
+        if (ready(img)) { toWarm.add(i); scheduleWarm(); }
         if (i === 0) render();
         if (!loaderDone && i % 8 === 0) tickLoader();
         loadNext();
@@ -359,11 +400,16 @@ document.querySelectorAll('.embers').forEach((cv) => {
     if (visible) raf = requestAnimationFrame(tick);
   }
 
+  // erst nach der Ladeanzeige starten: während des Ladens soll der Hauptthread frei bleiben
   new IntersectionObserver(([e]) => {
     visible = e.isIntersecting;
     cancelAnimationFrame(raf);
-    if (visible) raf = requestAnimationFrame(tick);
+    if (visible && loaderDone) raf = requestAnimationFrame(tick);
   }).observe(cv);
+  addEventListener('effendi:ready', () => {
+    cancelAnimationFrame(raf);
+    if (visible) raf = requestAnimationFrame(tick);
+  });
 
   addEventListener('resize', size);
   size();
