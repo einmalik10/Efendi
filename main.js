@@ -105,6 +105,8 @@ function loadFrames() {
     img.src = `${seq.path}f_${String(i + 1).padStart(4, '0')}.webp`;
   };
   for (let k = 0; k < 6; k++) loadNext(); // 6 parallele Downloads
+  // Standbilder nur laden, wenn es keine Sequenz gibt: ihr erstes Bild ist ohnehin K1
+  if (seq.count) return;
   keys = (isMobile() ? KEYS.mobile : KEYS.desktop).map((src) => {
     const img = new Image();
     img.src = src;
@@ -366,6 +368,17 @@ document.querySelectorAll('.embers').forEach((cv) => {
   addEventListener('resize', size);
   size();
 });
+
+// Lavagrill-Video erst laden, wenn die Sektion näher kommt; außerhalb des Bildschirms pausieren
+const lavaVideo = document.querySelector('.lava__video');
+new IntersectionObserver(([e]) => {
+  if (e.isIntersecting) {
+    if (!lavaVideo.src) lavaVideo.src = lavaVideo.dataset.src;
+    if (!reduce) lavaVideo.play().catch(() => {});
+  } else if (lavaVideo.src) {
+    lavaVideo.pause();
+  }
+}, { rootMargin: '600px 0px' }).observe(lavaVideo);
 
 // Lavagrill-Text sanft einblenden
 gsap.from('.lava__text > *', {
