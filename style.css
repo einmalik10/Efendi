@@ -3,6 +3,7 @@
   --ink: #0b0a09;
   --coal: #16120f;
   --ember: #e4572e;
+  --ember-btn: #c9451f; /* weiße Schrift darauf: Kontrast 4,8:1 (WCAG AA) */
   --glow: #f2a03d;
   --cream: #f3e9dc;
   --muted: #b5a797;
@@ -27,11 +28,12 @@ h3 { font-size: 1.1rem; font-weight: 600; }
 
 .btn {
   display: inline-block; margin-top: 1.5rem; padding: .95rem 1.5rem;
-  background: var(--ember); color: #fff; border-radius: 999px;
+  background: var(--ember-btn); color: #fff; border-radius: 999px;
   font-weight: 600; font-size: .95rem; text-decoration: none;
   transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
 }
-.btn:hover { background: #f06535; transform: translateY(-2px); box-shadow: 0 10px 30px -10px var(--ember); }
+.btn:hover { background: #b83a18; transform: translateY(-2px); box-shadow: 0 10px 30px -10px var(--ember); }
+.btn:focus-visible, a:focus-visible { outline: 2px solid var(--glow); outline-offset: 3px; }
 .btn--small { margin: 0; padding: .6rem 1.1rem; font-size: .85rem; }
 .btn--ghost { background: transparent; border: 1px solid var(--line); }
 .btn--ghost:hover { background: rgba(243, 233, 220, .06); box-shadow: none; }
