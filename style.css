@@ -1,0 +1,152 @@
+/* Effendi Kebab · Mobile zuerst */
+:root {
+  --ink: #0b0a09;
+  --coal: #16120f;
+  --ember: #e4572e;
+  --glow: #f2a03d;
+  --cream: #f3e9dc;
+  --muted: #b5a797;
+  --line: rgba(243, 233, 220, .12);
+  --display: "Anton", "Impact", sans-serif;
+  --body: "Inter", system-ui, sans-serif;
+  --gutter: 20px;
+}
+
+* { box-sizing: border-box; margin: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body { background: var(--ink); color: var(--cream); font: 400 16px/1.55 var(--body); overflow-x: hidden; }
+img, canvas, video { display: block; max-width: 100%; }
+a { color: inherit; }
+
+h1, h2 { font-family: var(--display); font-weight: 400; text-transform: uppercase; line-height: .95; letter-spacing: .01em; }
+h1 { font-size: clamp(3rem, 13vw, 7.5rem); }
+h2 { font-size: clamp(2.4rem, 10vw, 5.5rem); }
+h3 { font-size: 1.1rem; font-weight: 600; }
+.eyebrow { color: var(--glow); font-size: .75rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; margin-bottom: .9rem; }
+.lead { color: var(--muted); max-width: 34ch; margin-top: 1rem; }
+
+.btn {
+  display: inline-block; margin-top: 1.5rem; padding: .95rem 1.5rem;
+  background: var(--ember); color: #fff; border-radius: 999px;
+  font-weight: 600; font-size: .95rem; text-decoration: none;
+  transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+}
+.btn:hover { background: #f06535; transform: translateY(-2px); box-shadow: 0 10px 30px -10px var(--ember); }
+.btn--small { margin: 0; padding: .6rem 1.1rem; font-size: .85rem; }
+.btn--ghost { background: transparent; border: 1px solid var(--line); }
+.btn--ghost:hover { background: rgba(243, 233, 220, .06); box-shadow: none; }
+
+/* Ladeanzeige */
+html.is-loading { overflow: hidden; }
+.loader {
+  position: fixed; inset: 0; z-index: 50;
+  display: grid; place-content: center; justify-items: center; gap: 22px;
+  background: var(--ink);
+  transition: opacity .7s ease, visibility .7s;
+}
+.loader.is-done { opacity: 0; visibility: hidden; }
+.loader__brand {
+  font-family: var(--display); font-size: clamp(2.4rem, 9vw, 4rem); letter-spacing: .12em; line-height: 1;
+  background: linear-gradient(100deg, var(--cream) 30%, var(--glow) 50%, var(--cream) 70%) 0 0 / 250% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: shimmer 2.4s linear infinite;
+}
+.loader__bar { width: 160px; height: 2px; background: var(--line); overflow: hidden; }
+.loader__bar i {
+  display: block; height: 100%;
+  background: linear-gradient(90deg, var(--ember), var(--glow));
+  transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
+}
+@keyframes shimmer { to { background-position: -250% 0; } }
+
+/* Navigation */
+.nav {
+  position: fixed; inset: 0 0 auto; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 14px var(--gutter);
+  background: linear-gradient(var(--ink), rgba(11, 10, 9, 0));
+  transition: background .3s ease, box-shadow .3s ease;
+}
+/* nach dem Scroll-Film: fester Hintergrund, damit Menü und Inhalt sich nicht überlagern */
+.nav.is-solid {
+  background: rgba(11, 10, 9, .88);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--line);
+}
+.brand { font-family: var(--display); font-size: 1.5rem; letter-spacing: .06em; text-decoration: none; line-height: 1; }
+.brand span { display: block; font: 500 .62rem/1.4 var(--body); letter-spacing: .2em; color: var(--muted); text-transform: uppercase; }
+.nav__links { display: none; gap: 2rem; font-size: .9rem; }
+.nav__links a { text-decoration: none; color: var(--muted); transition: color .2s; }
+.nav__links a:hover { color: var(--cream); }
+
+/* Scroll-Film */
+.story { height: 520vh; position: relative; }
+.story__stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.story__canvas, .embers { position: absolute; inset: 0; width: 100%; height: 100%; }
+.embers { pointer-events: none; mix-blend-mode: screen; }
+.story__shade { position: absolute; inset: 0; background: linear-gradient(to top, var(--ink) 8%, rgba(11, 10, 9, .55) 38%, transparent 60%); }
+
+.phase {
+  position: absolute; left: var(--gutter); right: var(--gutter); bottom: 9svh;
+  opacity: 0; transform: translateY(24px); pointer-events: none;
+  transition: opacity .5s ease, transform .6s cubic-bezier(.2, .7, .2, 1);
+}
+.phase.is-active { opacity: 1; transform: none; pointer-events: auto; }
+.phase--center { text-align: center; }
+.phase--center .lead { margin-inline: auto; }
+
+.story__progress { position: absolute; right: var(--gutter); top: 50%; width: 2px; height: 90px; transform: translateY(-50%); background: var(--line); }
+.story__progress span { display: block; width: 100%; height: 0; background: var(--glow); }
+
+/* Lavagrill */
+.lava { display: grid; gap: 2.5rem; padding: 96px var(--gutter); }
+.lava__visual {
+  position: relative; aspect-ratio: 4 / 5; border-radius: 18px; overflow: hidden;
+  background: radial-gradient(120% 70% at 50% 110%, #5a1d0c 0%, #1d0f09 45%, var(--coal) 70%);
+}
+.lava__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
+
+.skewers { list-style: none; padding: 0; margin-top: 2rem; border-top: 1px solid var(--line); }
+.skewers li { display: flex; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+.skewers b { color: var(--glow); font-weight: 600; }
+
+/* Karte */
+.menu { padding: 96px var(--gutter); background: var(--coal); }
+.menu__grid { display: grid; gap: 14px; margin-top: 2.5rem; }
+.dish {
+  padding: 1.5rem; border: 1px solid var(--line); border-radius: 16px;
+  background: linear-gradient(160deg, rgba(228, 87, 46, .08), transparent 55%);
+  transition: border-color .3s, transform .3s;
+}
+.dish:hover { border-color: rgba(242, 160, 61, .45); transform: translateY(-3px); }
+.dish p { color: var(--muted); font-size: .92rem; margin: .35rem 0 1rem; }
+.dish b { color: var(--glow); }
+
+/* Besuch */
+.visit { display: grid; gap: 2rem; padding: 96px var(--gutter); }
+.hours { display: grid; grid-template-columns: auto 1fr; gap: .4rem 1.5rem; margin-top: 1.5rem; color: var(--muted); }
+.hours dt { color: var(--cream); }
+.visit__actions { display: flex; flex-wrap: wrap; gap: 0 12px; align-self: end; }
+
+.footer { display: flex; flex-wrap: wrap; gap: 1.5rem; padding: 28px var(--gutter); border-top: 1px solid var(--line); color: var(--muted); font-size: .85rem; }
+
+/* Desktop */
+@media (min-width: 900px) {
+  :root { --gutter: 56px; }
+  .nav__links { display: flex; }
+  .story__shade { background: linear-gradient(to right, var(--ink) 10%, rgba(11, 10, 9, .4) 42%, transparent 62%); }
+  .phase { right: auto; bottom: auto; top: 50%; width: min(520px, 42vw); transform: translateY(calc(-50% + 24px)); }
+  .phase.is-active { transform: translateY(-50%); }
+  .phase--center { left: 50%; width: 800px; transform: translate(-50%, calc(-50% + 24px)); top: 22%; }
+  .phase--center.is-active { transform: translate(-50%, -50%); }
+  .lava { grid-template-columns: 1.1fr 1fr; align-items: center; gap: 5rem; padding-block: 140px; }
+  .lava__visual { aspect-ratio: 5 / 4; }
+  .menu { padding-block: 140px; }
+  .menu__grid { grid-template-columns: repeat(4, 1fr); }
+  .visit { grid-template-columns: 1fr auto; padding-block: 140px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

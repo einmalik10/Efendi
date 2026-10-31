@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="de" class="is-loading">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Effendi Kebab · Tübingen</title>
+  <meta name="description" content="Effendi Kebab, neu in Tübingen: Döner vom Spieß und Spieße vom Lavastein-Grill.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="loader" role="status" aria-label="Seite lädt">
+    <span class="loader__brand">EFFENDI</span>
+    <span class="loader__bar"><i></i></span>
+  </div>
+
+  <header class="nav">
+    <a class="brand" href="#top">EFFENDI<span>Kebab · Tübingen</span></a>
+    <nav class="nav__links" aria-label="Hauptnavigation">
+      <a href="#lavagrill">Lavagrill</a>
+      <a href="#karte">Karte</a>
+      <a href="#besuch">Anfahrt</a>
+    </nav>
+    <a class="btn btn--small" href="#besuch">Bestellen</a>
+  </header>
+
+  <main id="top">
+    <!-- Scroll-Film: Spieß → Fleischspirale → Explosionszeichnung → fertiger Döner -->
+    <section class="story" id="story" aria-label="Wie ein Effendi-Döner entsteht">
+      <div class="story__stage">
+        <canvas class="story__canvas" aria-hidden="true"></canvas>
+        <canvas class="embers" data-density="1" aria-hidden="true"></canvas>
+        <div class="story__shade" aria-hidden="true"></div>
+
+        <div class="phase is-active" data-at="0">
+          <p class="eyebrow">Neu in Tübingen</p>
+          <h1>Vom Feuer.<br>Für dich.</h1>
+          <p class="lead">Frisch geschichtet, langsam gegrillt, direkt vom Spieß.</p>
+          <a class="btn" href="#besuch">Jetzt bestellen</a>
+        </div>
+        <div class="phase" data-at="0.13">
+          <p class="eyebrow">Schicht für Schicht</p>
+          <h2>Hauchdünn<br>geschnitten.</h2>
+          <p class="lead">Jede Scheibe kommt frisch vom Spieß, nie vom Vortag.</p>
+        </div>
+        <div class="phase" data-at="0.38">
+          <p class="eyebrow">Das Rezept</p>
+          <h2>Jede Zutat<br>zählt.</h2>
+          <p class="lead">Ofenfrisches Brot, knackiger Salat, Zwiebeln, Tomaten und unsere Soßen.</p>
+        </div>
+        <div class="phase" data-at="0.7">
+          <p class="eyebrow">Zusammengesetzt</p>
+          <h2>Gebaut,<br>nicht gestapelt.</h2>
+        </div>
+        <div class="phase phase--center" data-at="0.9">
+          <h2>So fängt<br>Hunger an.</h2>
+          <a class="btn" href="#karte">Zur Karte</a>
+        </div>
+
+        <div class="story__progress" aria-hidden="true"><span></span></div>
+      </div>
+    </section>
+
+    <!-- Lavastein-Grill -->
+    <section class="lava" id="lavagrill">
+      <div class="lava__visual">
+        <video class="lava__video" src="assets/lavagrill.mp4" poster="assets/lavagrill.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+        <canvas class="embers" data-density="1.6" aria-hidden="true"></canvas>
+      </div>
+      <div class="lava__text">
+        <p class="eyebrow">Auch bei uns</p>
+        <h2>Spieße vom<br>Lavastein-Grill.</h2>
+        <p class="lead">Über glühenden Lavasteinen gegrillt: rauchig außen, saftig innen.</p>
+        <!-- Platzhalter: echte Spieße und Preise von Effendi eintragen -->
+        <ul class="skewers">
+          <li><span>Adana-Spieß</span><b>x,xx €</b></li>
+          <li><span>Hähnchen-Spieß</span><b>x,xx €</b></li>
+          <li><span>Lamm-Spieß</span><b>x,xx €</b></li>
+          <li><span>Köfte-Spieß</span><b>x,xx €</b></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Karte (Platzhalter bis zur echten Speisekarte) -->
+    <section class="menu" id="karte">
+      <p class="eyebrow">Unsere Karte</p>
+      <h2>Was darf's sein?</h2>
+      <div class="menu__grid">
+        <article class="dish"><h3>Döner im Brot</h3><p>Fleisch vom Spieß, Salat, Soße nach Wahl</p><b>x,xx €</b></article>
+        <article class="dish"><h3>Dürüm</h3><p>Im Yufka gerollt</p><b>x,xx €</b></article>
+        <article class="dish"><h3>Dönerteller</h3><p>Mit Pommes oder Reis und Salat</p><b>x,xx €</b></article>
+        <article class="dish"><h3>Lavagrill-Teller</h3><p>Spieß nach Wahl, Reis, gegrilltes Gemüse</p><b>x,xx €</b></article>
+      </div>
+    </section>
+
+    <!-- Besuch -->
+    <section class="visit" id="besuch">
+      <div>
+        <p class="eyebrow">Neu in Tübingen</p>
+        <h2>Komm vorbei.</h2>
+        <!-- Platzhalter: Adresse, Zeiten, Telefon -->
+        <p class="lead">Straße 00, 72070 Tübingen</p>
+        <dl class="hours">
+          <dt>Mo – Do</dt><dd>00:00 – 00:00</dd>
+          <dt>Fr – Sa</dt><dd>00:00 – 00:00</dd>
+          <dt>So</dt><dd>00:00 – 00:00</dd>
+        </dl>
+      </div>
+      <div class="visit__actions">
+        <a class="btn" href="tel:+490000000000">Anrufen &amp; bestellen</a>
+        <a class="btn btn--ghost" href="#" rel="noopener">Route planen</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© Effendi Kebab Tübingen</span>
+    <a href="#">Impressum</a>
+    <a href="#">Datenschutz</a>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
